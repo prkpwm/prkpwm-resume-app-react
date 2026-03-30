@@ -77,7 +77,7 @@ export const resumeData: ResumeData = {
         'Implemented automated testing with Robot Framework & Jest to improve code reliability.',
       ],
       tech: ['Angular', 'TypeScript', 'TailwindCSS', 'Node.js', 'GraphQL', 'EJS', 'MongoDB', 'MySQL', 'Robot Framework', 'Jest', 'Git', 'Docker', 'CI/CD', 'Nginx', 'C#', 'HTML5', 'CSS3'],
-      logo: '/src/assets/logoitopplus.png',
+      logo: logoItopplus,
     },
     {
       title: 'Full Stack Software Engineer',
@@ -90,7 +90,7 @@ export const resumeData: ResumeData = {
         'Leveraged computer vision (OpenCV, YOLO) and machine learning for intelligent web solutions.',
       ],
       tech: ['ReactJS', 'JavaScript', 'Python', 'Go', 'OpenCV', 'Yolo', 'MongoDB', 'Flask', 'Git', 'Docker', 'Nginx', 'HTML5', 'CSS3'],
-      logo: '/src/assets/gridwhiz.png',
+      logo: logoGridwhiz,
     },
   ],
   achievements: [
