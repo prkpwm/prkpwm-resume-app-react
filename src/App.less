@@ -261,16 +261,21 @@ body {
   padding-bottom: 3px;
   border-bottom: 2px solid @border;
   position: relative;
-  margin-bottom: 1px;
-
+  margin-bottom: 8px;
+  margin-top: 8px;
   &::after {
     content: '';
     position: absolute;
     bottom: -2px;
     left: 0;
-    width: 36px;
+    width: 360px;
     height: 2px;
     background: linear-gradient(90deg, @blue, @sb-accent);
+  }
+
+  span {
+    font-size: 16px !important;
+    line-height: 24px;
   }
 }
 
@@ -286,8 +291,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding-bottom: 8px;
+  padding-bottom: 16px;
   border-bottom: 1px dashed @border;
+
 
   &:last-child { border-bottom: none; }
 }
@@ -330,6 +336,7 @@ body {
   object-fit: contain;
   border-radius: 2px;
   flex-shrink: 0;
+  margin: 4px 8px 0 0;
 }
 
 .job-company { font-size: @fs-base; color: @text-company; white-space: nowrap; }
