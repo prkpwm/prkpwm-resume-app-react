@@ -8,7 +8,7 @@ export const resumeData: ResumeData = {
   name: 'PAKPOOM\nSRISEN',
   title: 'SENIOR FULL-STACK\nDEVELOPER',
   contact: {
-    email: 'prkpwm@gmail.com',
+    email: 'pakpoom.ss@outlook.com',
     phone: '(+66) 95-187-2661',
     website: 'https://resume-prkpwm.web.app',
     linkedin: 'linkedin.com/in/prkpwm',
