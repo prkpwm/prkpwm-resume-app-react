@@ -9,6 +9,5 @@ export default defineConfig({
   build: {
     assetsInlineLimit: 100_000_000,
     cssCodeSplit: false,
-    codeSplitting: false,
   },
 })
