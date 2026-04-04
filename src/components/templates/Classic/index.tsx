@@ -1,6 +1,10 @@
 import mePhoto from '../../../assets/me.png';
 import type { ResumeData, WorkExperience } from '../../../types/resume';
+import { EditableField } from '../../editors/EditableField';
+import { EditableList } from '../../editors/EditableList';
 import './Classic.less';
+
+type Upd = (d: ResumeData) => void;
 
 // ── Icons ──────────────────────────────────────────────────
 const Icons = {
@@ -25,52 +29,90 @@ const Icons = {
 function Ico({ children }: Readonly<{ children: React.ReactNode }>) {
   return <span className="c-ico">{children}</span>;
 }
-
 function SectionTitle({ icon, label }: Readonly<{ icon: React.ReactNode; label: string }>) {
-  return (
-    <div className="c-section-title">
-      <span className="c-section-title-icon">{icon}</span>
-      <span>{label}</span>
-    </div>
-  );
+  return <div className="c-section-title"><span className="c-section-title-icon">{icon}</span><span>{label}</span></div>;
 }
-
 function SidebarSectionTitle({ icon, label }: Readonly<{ icon: React.ReactNode; label: string }>) {
-  return (
-    <div className="c-sb-section-title">
-      <span className="c-sb-section-icon">{icon}</span>
-      <span>{label}</span>
-    </div>
-  );
+  return <div className="c-sb-section-title"><span className="c-sb-section-icon">{icon}</span><span>{label}</span></div>;
 }
 
-function ExperienceItem({ job }: Readonly<{ job: WorkExperience }>) {
+// ── ExperienceItem ─────────────────────────────────────────
+interface ExpProps {
+  readonly job: WorkExperience;
+  readonly idx: number;
+  readonly onUpdate: Upd;
+  readonly d: ResumeData;
+}
+
+function ExperienceItem({ job, idx, onUpdate, d }: ExpProps) {
+  const upd = (patch: Partial<WorkExperience>) => {
+    const experience = d.experience.map((j, i) => i === idx ? { ...j, ...patch } : j);
+    onUpdate({ ...d, experience });
+  };
   return (
     <div className="c-job">
       <div className="c-job-top">
         <div className="c-job-left">
           <div className="c-job-dot" />
           <div>
-            <div className="c-job-title">{job.title}</div>
+            <div className="c-job-title">
+              <EditableField value={job.title} onChange={(v) => upd({ title: v })} />
+            </div>
             <div className="c-job-company-row">
               {job.logo && <img src={job.logo} alt={job.company} className="c-job-logo" />}
-              <span className="c-job-company">{job.company} — {job.location}</span>
+              <span className="c-job-company">
+                <EditableField value={job.company} onChange={(v) => upd({ company: v })} />
+                {' — '}
+                <EditableField value={job.location} onChange={(v) => upd({ location: v })} />
+              </span>
             </div>
           </div>
         </div>
         <div className="c-job-right">
-          <span className="c-job-period"><Ico>{Icons.calendar}</Ico>{job.period}</span>
-          <span className="c-job-type-badge">{job.type}</span>
+          <span className="c-job-period">
+            <Ico>{Icons.calendar}</Ico>
+            <EditableField value={job.period} onChange={(v) => upd({ period: v })} />
+          </span>
+          <span className="c-job-type-badge">
+            <EditableField value={job.type} onChange={(v) => upd({ type: v })} />
+          </span>
         </div>
       </div>
       <div className="c-job-body">
         <div className="c-job-resp-label">KEY RESPONSIBILITIES</div>
         <ul className="c-job-bullets">
-          {job.bullets.map((b) => <li key={b}>{b}</li>)}
+          <EditableList
+            items={job.bullets}
+            onChange={(bullets) => upd({ bullets })}
+            renderItem={(b, i) => (
+              <li key={i}>
+                <EditableField
+                  value={b}
+                  onChange={(v) => upd({ bullets: job.bullets.map((x, xi) => xi === i ? v : x) })}
+                  multiline
+                />
+              </li>
+            )}
+            addLabel="+ bullet"
+            inputPlaceholder="New responsibility"
+          />
         </ul>
         <div className="c-job-tech-row">
           <span className="c-job-tech-label">TECH STACK:</span>
-          {job.tech.join(', ')}
+          <EditableList
+            items={job.tech}
+            onChange={(tech) => upd({ tech })}
+            renderItem={(t, i) => (
+              <span key={i}>
+                <EditableField
+                  value={t}
+                  onChange={(v) => upd({ tech: job.tech.map((x, xi) => xi === i ? v : x) })}
+                />{i < job.tech.length - 1 ? ',  ' : ''}
+              </span>
+            )}
+            addLabel="+ tech"
+            inputPlaceholder="Technology"
+          />
         </div>
       </div>
     </div>
@@ -83,15 +125,13 @@ const achievementIcons: Record<string, React.ReactNode> = {
   'Improved Delivery Efficiency': Icons.refresh,
 };
 
-const strengthList = [
-  'Technical Leadership & Team Ownership',
-  'Scalable Architecture & System Design',
-  'Agile/Scrum Delivery & Planning',
-  'Performance Optimization & Security',
-  'Cross-functional Collaboration',
-];
+// ── ClassicTemplate ────────────────────────────────────────
+interface ClassicProps {
+  readonly d: ResumeData;
+  readonly onUpdate: Upd;
+}
 
-export function ClassicTemplate({ d }: Readonly<{ d: ResumeData }>) {
+export function ClassicTemplate({ d, onUpdate }: ClassicProps) {
   const [fn, ln] = d.name.split('\n');
   return (
     <div className="c-resume-wrapper">
@@ -101,34 +141,76 @@ export function ClassicTemplate({ d }: Readonly<{ d: ResumeData }>) {
           <div className="c-sb-photo">
             <img src={mePhoto} alt={d.name.replace('\n', ' ')} className="c-sb-photo-img" />
           </div>
+
           <section className="c-sb-section">
             <SidebarSectionTitle icon={Icons.user} label="SUMMARY" />
-            <p className="c-sb-summary">{d.summary}</p>
+            <p className="c-sb-summary">
+              <EditableField value={d.summary} onChange={(v) => onUpdate({ ...d, summary: v })} multiline />
+            </p>
           </section>
+
           <section className="c-sb-section">
             <SidebarSectionTitle icon={Icons.code} label="PROFESSIONAL SKILLS" />
-            {d.skills.map((sg) => (
-              <div key={sg.category} className="c-sb-skill-group">
-                <div className="c-sb-skill-cat">{sg.category}</div>
+            {d.skills.map((sg, si) => (
+              <div key={si} className="c-sb-skill-group">
+                <div className="c-sb-skill-cat">
+                  <EditableField value={sg.category} onChange={(v) => {
+                    const skills = d.skills.map((s, i) => i === si ? { ...s, category: v } : s);
+                    onUpdate({ ...d, skills });
+                  }} />
+                </div>
                 <div className="c-sb-skill-badges">
-                  {sg.items.map((item) => <span key={item} className="c-sb-badge">{item}</span>)}
+                  <EditableList
+                    items={sg.items}
+                    onChange={(items) => {
+                      const skills = d.skills.map((s, i) => i === si ? { ...s, items } : s);
+                      onUpdate({ ...d, skills });
+                    }}
+                    renderItem={(item, ii) => (
+                      <span key={ii} className="c-sb-badge">
+                        <EditableField value={item} onChange={(v) => {
+                          const skills = d.skills.map((s, i) => i === si
+                            ? { ...s, items: s.items.map((x, xi) => xi === ii ? v : x) }
+                            : s);
+                          onUpdate({ ...d, skills });
+                        }} />
+                      </span>
+                    )}
+                    addLabel="+ skill"
+                    inputPlaceholder="Skill"
+                  />
                 </div>
               </div>
             ))}
           </section>
+
           <section className="c-sb-section">
             <SidebarSectionTitle icon={Icons.star} label="CORE STRENGTHS" />
             <ul className="c-sb-strengths">
-              {strengthList.map((s) => (
-                <li key={s}><Ico>{Icons.check}</Ico>{s}</li>
+              {d.strengths.map((s, si) => (
+                <li key={si}>
+                  <Ico>{Icons.check}</Ico>
+                  <EditableField value={s.title} onChange={(v) => {
+                    const strengths = d.strengths.map((x, i) => i === si ? { ...x, title: v } : x);
+                    onUpdate({ ...d, strengths });
+                  }} />
+                </li>
               ))}
             </ul>
           </section>
+
           <section className="c-sb-section">
             <SidebarSectionTitle icon={Icons.graduation} label="EDUCATION" />
-            <div className="c-sb-edu-degree">{d.education.degree}</div>
-            <div className="c-sb-edu-school">{d.education.school}</div>
-            <div className="c-sb-edu-period"><Ico>{Icons.calendar}</Ico>{d.education.period}</div>
+            <div className="c-sb-edu-degree">
+              <EditableField value={d.education.degree} onChange={(v) => onUpdate({ ...d, education: { ...d.education, degree: v } })} />
+            </div>
+            <div className="c-sb-edu-school">
+              <EditableField value={d.education.school} onChange={(v) => onUpdate({ ...d, education: { ...d.education, school: v } })} />
+            </div>
+            <div className="c-sb-edu-period">
+              <Ico>{Icons.calendar}</Ico>
+              <EditableField value={d.education.period} onChange={(v) => onUpdate({ ...d, education: { ...d.education, period: v } })} />
+            </div>
           </section>
         </aside>
 
@@ -136,37 +218,53 @@ export function ClassicTemplate({ d }: Readonly<{ d: ResumeData }>) {
         <main className="c-main">
           <header className="c-main-header">
             <div className="c-header-name-block">
-              <div className="c-header-name">{fn} {ln}</div>
-              <div className="c-header-title">{d.title.replace('\n', ' ')}</div>
+              <div className="c-header-name">
+                <EditableField value={fn ?? ''} onChange={(v) => onUpdate({ ...d, name: `${v}\n${ln ?? ''}` })} />
+                {' '}
+                <EditableField value={ln ?? ''} onChange={(v) => onUpdate({ ...d, name: `${fn ?? ''}\n${v}` })} />
+              </div>
+              <div className="c-header-title">
+                <EditableField value={d.title.replace('\n', ' ')} onChange={(v) => onUpdate({ ...d, title: v })} />
+              </div>
             </div>
             <div className="c-header-contacts">
               <div className="c-header-contact-row">
-                <span className="c-hc-item"><Ico>{Icons.mail}</Ico>{d.contact.email}</span>
-                <span className="c-hc-item"><Ico>{Icons.phone}</Ico>{d.contact.phone}</span>
-                <span className="c-hc-item"><Ico>{Icons.globe}</Ico>{d.contact.website.replace('https://', '')}</span>
+                <span className="c-hc-item"><Ico>{Icons.mail}</Ico><EditableField value={d.contact.email} onChange={(v) => onUpdate({ ...d, contact: { ...d.contact, email: v } })} /></span>
+                <span className="c-hc-item"><Ico>{Icons.phone}</Ico><EditableField value={d.contact.phone} onChange={(v) => onUpdate({ ...d, contact: { ...d.contact, phone: v } })} /></span>
+                <span className="c-hc-item"><Ico>{Icons.globe}</Ico><EditableField value={d.contact.website} onChange={(v) => onUpdate({ ...d, contact: { ...d.contact, website: v } })} /></span>
               </div>
               <div className="c-header-contact-row">
-                <span className="c-hc-item"><Ico>{Icons.linkedin}</Ico>{d.contact.linkedin}</span>
-                <span className="c-hc-item"><Ico>{Icons.pin}</Ico>{d.contact.location}</span>
+                <span className="c-hc-item"><Ico>{Icons.linkedin}</Ico><EditableField value={d.contact.linkedin} onChange={(v) => onUpdate({ ...d, contact: { ...d.contact, linkedin: v } })} /></span>
+                <span className="c-hc-item"><Ico>{Icons.pin}</Ico><EditableField value={d.contact.location} onChange={(v) => onUpdate({ ...d, contact: { ...d.contact, location: v } })} /></span>
               </div>
             </div>
           </header>
 
           <section className="c-main-section">
             <SectionTitle icon={Icons.briefcase} label="PROFESSIONAL EXPERIENCE" />
-            {d.experience.map((job) => (
-              <ExperienceItem key={job.title + job.period} job={job} />
+            {d.experience.map((job, idx) => (
+              <ExperienceItem key={idx} job={job} idx={idx} onUpdate={onUpdate} d={d} />
             ))}
           </section>
 
           <section className="c-main-section">
             <SectionTitle icon={Icons.trophy} label="KEY ACHIEVEMENTS" />
             <div className="c-achievements-grid">
-              {d.achievements.map((a) => (
-                <div key={a.title} className="c-ach-card">
+              {d.achievements.map((a, ai) => (
+                <div key={ai} className="c-ach-card">
                   <div className="c-ach-icon">{achievementIcons[a.title] ?? Icons.trophy}</div>
-                  <div className="c-ach-title">{a.title}</div>
-                  <div className="c-ach-desc">{a.description}</div>
+                  <div className="c-ach-title">
+                    <EditableField value={a.title} onChange={(v) => {
+                      const achievements = d.achievements.map((x, i) => i === ai ? { ...x, title: v } : x);
+                      onUpdate({ ...d, achievements });
+                    }} />
+                  </div>
+                  <div className="c-ach-desc">
+                    <EditableField value={a.description} onChange={(v) => {
+                      const achievements = d.achievements.map((x, i) => i === ai ? { ...x, description: v } : x);
+                      onUpdate({ ...d, achievements });
+                    }} multiline />
+                  </div>
                 </div>
               ))}
             </div>

@@ -31,33 +31,31 @@ export function ImportExportBar({ onExport, onImport, onReset, children }: Props
 
   return (
     <div className="ie-bar">
-      <div className="ie-bar-inner">
-        {children && <>{children}<div className="ie-divider" /></>}
-        <span className="ie-label">Resume Data</span>
+      {children && <>{children}<div className="ie-divider" /></>}
+      <span className="ie-label">Data</span>
 
-        <button className="ie-btn" onClick={onExport} title="Export JSON">
-          <DownloadIcon /> Export JSON
-        </button>
+      <button className="ie-btn" onClick={onExport} title="Export JSON">
+        <DownloadIcon /> Export
+      </button>
 
-        <button className="ie-btn" onClick={() => fileRef.current?.click()} title="Import JSON">
-          <UploadIcon /> Import JSON
-        </button>
+      <button className="ie-btn" onClick={() => fileRef.current?.click()} title="Import JSON">
+        <UploadIcon /> Import
+      </button>
 
-        <button className="ie-btn ie-btn--ghost" onClick={onReset} title="Reset to default">
-          <ResetIcon /> Reset
-        </button>
+      <button className="ie-btn ie-btn--ghost" onClick={onReset} title="Reset to default">
+        <ResetIcon /> Reset
+      </button>
 
-        <input
-          ref={fileRef}
-          type="file"
-          accept=".json,application/json"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
+      <input
+        ref={fileRef}
+        type="file"
+        accept=".json,application/json"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
 
-        {success && <span className="ie-msg ie-msg--ok">Imported successfully</span>}
-        {error && <span className="ie-msg ie-msg--err">{error}</span>}
-      </div>
+      {success && <span className="ie-msg ie-msg--ok">✓ Imported</span>}
+      {error && <span className="ie-msg ie-msg--err">{error}</span>}
     </div>
   );
 }

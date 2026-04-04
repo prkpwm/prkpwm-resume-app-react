@@ -1,42 +1,52 @@
+@muted:  #8b9ab5;
+@accent: #3b82f6;
+
 .tp-wrap {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .tp-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: #475569;
-  letter-spacing: 0.5px;
-  margin-right: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: @muted;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tp-group {
+  display: flex;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 7px;
+  overflow: hidden;
 }
 
 .tp-btn {
-  padding: 4px 12px;
+  padding: 5px 14px;
   font-size: 11px;
   font-weight: 600;
-  border-radius: 4px;
-  border: 1px solid #cbd5e1;
-  background: transparent;
-  color: #64748b;
+  border: none;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #8b9ab5;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s;
+
+  &:last-child { border-right: none; }
 
   &:hover {
-    background: #f1f5f9;
-    border-color: #94a3b8;
+    background: rgba(255,255,255,0.1);
+    color: #e2e8f0;
   }
 
   &--active {
-    background: #1a56db;
-    border-color: #1a56db;
+    background: @accent;
     color: #fff;
 
-    &:hover {
-      background: #1e40af;
-      border-color: #1e40af;
-    }
+    &:hover { background: #2563eb; }
   }
 }
 

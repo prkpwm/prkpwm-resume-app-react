@@ -1,0 +1,35 @@
+.ef-display {
+  cursor: text;
+  border-radius: 2px;
+  outline: 1px dashed transparent;
+  transition: outline-color 0.15s, background 0.15s;
+
+  &:hover {
+    outline-color: rgba(26, 86, 219, 0.4);
+    background: rgba(26, 86, 219, 0.04);
+  }
+}
+
+.ef-input {
+  font: inherit;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #1a56db;
+  border-radius: 3px;
+  padding: 1px 4px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+.ef-placeholder {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+@media print {
+  .ef-display { outline: none !important; background: none !important; cursor: default; }
+}

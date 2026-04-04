@@ -1,5 +1,5 @@
 // ── Variables ──────────────────────────────────────────────
-@bg-page:        #c9d6df;
+@bg-page:        #1e2433;
 @bg-white:       #fff;
 @a4-w:           794px;
 @a4-h:           1123px;
@@ -32,31 +32,64 @@
 body {
   background: @bg-page;
   margin: 0;
-  padding: 24px 0;
+  padding: 0;
+  min-height: 100vh;
   box-sizing: border-box;
+}
+
+// ── Control Panel (wraps profile + toolbar) ────────────────
+.control-panel {
+  width: 100%;
+  background: linear-gradient(180deg, #141926 0%, #1a2235 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 14px 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+.control-inner {
+  width: @a4-w;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+// ── Resume canvas ──────────────────────────────────────────
+.resume-canvas {
+  padding: 28px 0 40px;
 }
 
 .resume-wrapper {
   width: @a4-w;
-  height: @a4-h;
+  min-height: @a4-h;
   margin: 0 auto;
-  overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 20px 60px rgba(0,0,0,0.6),
+    0 4px 16px rgba(0,0,0,0.4);
+  border-radius: 6px;
 }
 
 .resume {
   display: flex;
   align-items: stretch;
   width: @a4-w;
-  height: @a4-h;
+  min-height: @a4-h;
   font-family: 'Segoe UI', system-ui, sans-serif;
   background: @bg-white;
 }
 
 @media print {
   body { background: @bg-white; padding: 0; }
-  .resume-wrapper, .resume { width: 210mm; height: 297mm; box-shadow: none; margin: 0; overflow: hidden; }
+  .control-panel { display: none; }
+  .resume-canvas { padding: 0; }
+  .resume-wrapper, .resume { width: 210mm; height: 297mm; box-shadow: none; margin: 0; overflow: hidden; border-radius: 0; }
 }
 
 // ── SIDEBAR ────────────────────────────────────────────────
@@ -145,7 +178,7 @@ body {
 .sb-badge {
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(79,195,247,0.3);
-  color: #e0f2fe;
+  color: #cce8f8;
   font-size: @fs-base;
   padding: 1px 6px;
   border-radius: 3px;
@@ -293,7 +326,6 @@ body {
   padding-bottom: 16px;
   border-bottom: 1px dashed @border;
 
-
   &:last-child { border-bottom: none; }
 }
 
@@ -316,7 +348,7 @@ body {
   border-radius: 50%;
   background: linear-gradient(135deg, @blue, @sb-accent);
   flex-shrink: 0;
-  margin-top: 8px;  
+  margin-top: 8px;
 }
 
 .job-title { font-size: 14px; font-weight: 700; color: @dark; }

@@ -21,25 +21,25 @@
 @fs-header-sub:12px;
 
 .c-resume-wrapper {
-  width: @a4-w; height: @a4-h; margin: 0 auto;
-  overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.25); border-radius: 4px;
+  width: @a4-w; min-height: @a4-h; margin: 0 auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25); border-radius: 4px;
 }
 
 .c-resume {
   display: flex; align-items: stretch;
-  width: @a4-w; height: @a4-h;
+  width: @a4-w; min-height: @a4-h;
   font-family: 'Segoe UI', system-ui, sans-serif;
   background: @bg-white;
 }
 
 @media print {
-  .c-resume-wrapper, .c-resume { width: 210mm; height: 297mm; box-shadow: none; margin: 0; overflow: hidden; }
+  .c-resume-wrapper, .c-resume { width: 210mm; height: 297mm; box-shadow: none; margin: 0; overflow: hidden; min-height: unset; }
 }
 
 // Sidebar
 .c-sidebar {
   width: @sb-w; min-width: @sb-w; background: @sb-bg; color: @sb-text;
-  display: flex; flex-direction: column; overflow: hidden; box-sizing: border-box; align-self: stretch;
+  display: flex; flex-direction: column; box-sizing: border-box; align-self: stretch;
 }
 .c-sb-photo {
   display: flex; justify-content: center; align-items: center; padding: 18px 0 12px;
@@ -79,7 +79,7 @@
 .c-sb-edu-period  { font-size: 10px; color: @sb-accent2; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
 
 // Main
-.c-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: @bg-white; height: 100%; }
+.c-main { flex: 1; display: flex; flex-direction: column; background: @bg-white; }
 .c-main-header {
   background: linear-gradient(135deg, #f8fafc 0%, #f0f7ff 100%);
   border-bottom: 2px solid @border; padding: 12px 20px 10px; display: flex; flex-direction: column; gap: 4px;
@@ -122,7 +122,7 @@
 .c-job-body { padding-left: 15px; }
 .c-job-resp-label { font-size: @fs-base; font-weight: 700; color: @blue; letter-spacing: 0.8px; margin-bottom: 2px; }
 .c-job-bullets { margin: 0 0 2px; padding-left: 12px; font-size: @fs-base; line-height: 1.35; color: @text-body; }
-.c-job-tech-row { font-size: @fs-sm; color: @text-muted; line-height: 1.4; }
+.c-job-tech-row { font-size: @fs-sm; color: @text-muted; line-height: 1.6; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 2px; }
 .c-job-tech-label { font-weight: 700; color: @dark; margin-right: 4px; }
 
 // Achievements

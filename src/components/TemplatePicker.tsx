@@ -11,16 +11,18 @@ export function TemplatePicker({ current, onChange }: Props) {
   return (
     <div className="tp-wrap">
       <span className="tp-label">Template</span>
-      {TEMPLATES.map((t) => (
-        <button
-          key={t.id}
-          className={`tp-btn${current === t.id ? ' tp-btn--active' : ''}`}
-          onClick={() => onChange(t.id)}
-          title={t.description}
-        >
-          {t.label}
-        </button>
-      ))}
+      <div className="tp-group">
+        {TEMPLATES.map((t) => (
+          <button
+            key={t.id}
+            className={`tp-btn${current === t.id ? ' tp-btn--active' : ''}`}
+            onClick={() => onChange(t.id)}
+            title={t.description}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

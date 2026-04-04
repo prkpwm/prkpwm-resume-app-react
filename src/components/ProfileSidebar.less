@@ -1,0 +1,135 @@
+@accent:      #3b82f6;
+@accent-glow: rgba(59, 130, 246, 0.25);
+@border:      rgba(255,255,255,0.08);
+@muted:       #8b9ab5;
+@text:        #e2e8f0;
+@dark-text:   #cbd5e1;
+
+.ps-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ps-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: @muted;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ps-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  flex: 1;
+}
+
+.ps-item {
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid @border;
+  background: rgba(255,255,255,0.04);
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    border-color: rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.07);
+  }
+
+  &--active {
+    border-color: @accent;
+    background: rgba(59,130,246,0.15);
+    box-shadow: 0 0 0 3px @accent-glow;
+  }
+}
+
+.ps-item-select {
+  background: none;
+  border: none;
+  padding: 4px 12px 4px 14px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: @dark-text;
+  white-space: nowrap;
+
+  .ps-item--active & { color: #93c5fd; }
+}
+
+.ps-item-label { white-space: nowrap; }
+
+.ps-rename-input {
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  outline: none;
+  border-radius: 0;
+  padding: 3px 8px;
+  width: 110px;
+  color: @text;
+}
+
+.ps-item-actions {
+  display: flex;
+  align-items: center;
+  padding-right: 6px;
+  gap: 1px;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    color: @muted;
+    padding: 3px 4px;
+    border-radius: 50%;
+    line-height: 1;
+    transition: background 0.12s, color 0.12s;
+
+    &:hover {
+      background: rgba(255,255,255,0.1);
+      color: @text;
+    }
+  }
+}
+
+.ps-delete:hover {
+  color: #f87171 !important;
+  background: rgba(239,68,68,0.15) !important;
+}
+
+.ps-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(59,130,246,0.12);
+  border: 1px dashed rgba(59,130,246,0.4);
+  border-radius: 20px;
+  color: #93c5fd;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+
+  &:hover {
+    background: rgba(59,130,246,0.22);
+    border-color: rgba(59,130,246,0.7);
+  }
+}
+
+@media print {
+  .ps-wrap { display: none; }
+}

@@ -57,3 +57,15 @@ export interface ResumeData {
   achievements: Achievement[];
   education: Education;
 }
+
+export interface ResumeProfile {
+  id: string;
+  label: string;
+  templateId: string;
+  data: ResumeData;
+}
+
+export interface ProfileStore {
+  profiles: ResumeProfile[];
+  activeId: string;
+}

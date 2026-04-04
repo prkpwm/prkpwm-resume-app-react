@@ -9,18 +9,18 @@
 @fs-name:    26px;
 
 .m-resume-wrapper {
-  width: @a4-w; height: @a4-h; margin: 0 auto;
-  overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.2); border-radius: 4px;
+  width: @a4-w; min-height: @a4-h; margin: 0 auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2); border-radius: 4px;
 }
 
 .m-resume {
-  width: @a4-w; height: @a4-h; background: #fff;
+  width: @a4-w; min-height: @a4-h; background: #fff;
   font-family: 'Segoe UI', system-ui, sans-serif;
   display: flex; flex-direction: column; box-sizing: border-box;
 }
 
 @media print {
-  .m-resume-wrapper, .m-resume { width: 210mm; height: 297mm; box-shadow: none; margin: 0; overflow: hidden; }
+  .m-resume-wrapper, .m-resume { width: 210mm; height: 297mm; box-shadow: none; margin: 0; overflow: hidden; min-height: unset; }
 }
 
 // Header
