@@ -1,79 +1,68 @@
-# React + TypeScript + Vite
+# prkpwm Resume App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript + Vite resume builder with multi-template support and import/export functionality.
 
-Currently, two official plugins are available:
+**Live:** https://prkpwm.github.io/prkpwm-resume-app-react/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Implemented Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Phase 1: Import / Export Data
+- Export resume data as a JSON file (download)
+- Import a JSON file to replace resume data (with validation)
+- Reset to default data
+- Data persisted in `localStorage` across sessions
 
-## React Compiler URL
+### Phase 2: Multi-Template Select
+- Switch between **Classic** (dark sidebar) and **Minimal** (clean two-column) layouts
+- Template selection persisted in `localStorage`
+- Both templates share the same `ResumeData` type — data is fully decoupled from layout
+- Toolbar hidden on print/PDF export
 
-```js
-  https://prkpwm.github.io/prkpwm-resume-app-react/
+---
+
+## Stack
+
+- React 19 + TypeScript
+- Vite + Less
+- Puppeteer (PDF export via `npm run export-pdf`)
+
+---
+
+## Scripts
+
+```bash
+npm run dev          # start dev server
+npm run build        # production build
+npm run deploy       # build + deploy to GitHub Pages
+npm run export-pdf   # build + export resume.pdf via Puppeteer
 ```
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+  components/
+    templates/
+      Classic/       # Dark sidebar template
+      Minimal/       # Clean two-column template
+    ImportExportBar  # JSON import/export toolbar
+    TemplatePicker   # Template switcher buttons
+  data/
+    resumeData.ts    # Default resume content
+  hooks/
+    useResumeData.ts # Data state + localStorage + import/export
+    useTemplate.ts   # Template selection + localStorage
+  types/
+    resume.ts        # ResumeData interfaces
+    template.ts      # TemplateId type + template registry
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Roadmap
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+See [ROADMAP.md](./ROADMAP.md) for planned phases including inline editing, AI suggestions, shareable links, and more.
